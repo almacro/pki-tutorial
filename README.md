@@ -10,11 +10,11 @@ The scripts depend on the etc directory given in the pki-tutorial.
 Copy the scripts into the corresponding directory from the pki-tutorial.
 Then change to a PKI directory (such as SimplePKI) and run
 
-  sh run_all.sh
+    sh run_all.sh
 
 or run an individual script such as
 
-  sh mk_rootca_db.sh
+    sh mk_rootca_db.sh
 
 The scripts presume the existence of input files:
   *  email_pass.txt
