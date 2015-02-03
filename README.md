@@ -16,10 +16,19 @@ or run an individual script such as
 
     sh mk_rootca_db.sh
 
-The scripts presume the existence of input files:
+The scripts presume the existence of input files for SimplePKI:
   *  email_pass.txt
   *  p12_pass.txt
   *  rootca_pass.txt
   *  signca_pass.txt
+
+Similarly, AdvancedPKI uses these input files:
+  *  email_pass.txt
+  *  emailca_pass.txt
+  *  p12_pass.txt
+  *  rootca_pass.txt
+  *  signca_pass.txt
+  *  softca_pass.txt
+  *  tlsca_pass.txt
 
 A secure - preferably automated - means of generating these files is a prerequisite to running the scripts.
