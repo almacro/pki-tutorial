@@ -1,8 +1,7 @@
 #!/usr/bin/env ksh
 #
-
-cat signca_pass.txt | \
+cat emailca_pass.txt | \
 /usr/sbin/openssl ca -gencrl \
-    -config etc/signing-ca.conf \
+    -config etc/email-ca.conf \
     -passin fd:0 \
-    -out crl/signing-ca.crl
+    -out crl/email-ca.crl

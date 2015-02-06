@@ -7,6 +7,3 @@ cat email_pass.txt | \
     -passout fd:0 \
     -out certs/fred.csr \
     -keyout certs/fred.key
-
-
-

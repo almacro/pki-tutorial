@@ -1,6 +1,5 @@
-x#!/usr/bin/env ksh
+#!/usr/bin/env ksh
 #
-
 cat tlsca_pass.txt | \
 /usr/sbin/openssl ca -gencrl \
     -config etc/tls-ca.conf \

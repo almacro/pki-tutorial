@@ -292,18 +292,20 @@ else
 fi
 
 ## revoke certificate
-echo -n 'revoking certificate with serial#=0x01... '
-if [ -e ca/signing-ca/01.pem ]
+echo -n 'revoking email protection certificate with serial#=0x01... '
+sh ck_email_revoc.sh > /dev/null
+if [ $? -eq 0 ]
 then
-  sh rev_01_cer.sh >> $LOG 2>&1
+  sh rev_01_email_cer.sh >> $LOG 2>&1
   check $?
 else
   skip
 fi
 
 ## create crl
-echo -n 'creating cert revoc list (CRL)... '
-if [ -e ca/signing-ca/01.pem ]
+echo -n 'creating cert revoc list (CRL) for email protection certificate... '
+sh ck_email_revoc.sh > /dev/null
+if [ $? -eq 0 ]
 then
   sh mk_emailca_crl.sh >> $LOG 2>&1
   check $?
@@ -311,52 +313,180 @@ else
   skip
 fi
 
-# BAIL OUT
-exit 1
-
 #
 # operate tls ca
 #
 
 ## create tls server request
+echo -n 'creating TLS server certificate request... '
+if ! [ -e certs/green.no.csr ]
+then
+  sh mk_tlserv_req.sh >> $LOG 2>&1
+  check $?
+else
+  skip
+fi
 
 ## create tls server certificate
+echo -n 'creating TLS server certificate... '
+if ! [ -e certs/green.no.crt ]
+then
+  sh mk_tlserv_cer.sh >> $LOG 2>&1
+  check $?
+else
+  skip
+fi
 
 ## create pkcs#12 bundle (server)
+echo -n 'creating PKCS#12 bundle for TLS server... '
+if [ -e certs/green.no.crt ]
+then
+  sh mk_tlserv_p12.sh >> $LOG 2>&1
+  check $?
+else
+  skip
+fi
 
 ## create tls client request
+echo -n 'creating TLS client certificate request... '
+if ! [ -e certs/barney.csr ]
+then
+  sh mk_tlscli_req.sh >> $LOG 2>&1
+  check $?
+else
+  skip
+fi
 
 ## create tls client certificate
+echo -n 'creating TLS client certificate... '
+if ! [ -e certs/barney.crt ]
+then
+  sh mk_tlscli_cer.sh >> $LOG 2>&1
+  check $?
+else
+  skip
+fi
 
 ## create pkcs#12 bundle (client)
+echo -n 'creating PKCS#12 bundle for TLS client... '
+if [ -e certs/barney.crt ]
+then
+  sh mk_tlscli_p12.sh >> $LOG 2>&1
+  check $?
+else
+  skip
+fi
 
 ## revoke certificate
+echo -n 'revoking TLS client certificate with serial#=0x01... '
+sh ck_tls_revoc.sh > /dev/null
+if [ $? -eq 0 ]
+then
+  sh rev_01_tlscli_cer.sh >> $LOG 2>&1
+  check $?
+else
+  skip
+fi
 
 ## create crl
+echo -n 'creating cert revoc list (CRL) for TLS client certificate... '
+sh ck_tls_revoc.sh > /dev/null
+if [ $? -eq 0 ]
+then
+  sh mk_tlscli_crl.sh >> $LOG 2>&1
+  check $?
+else
+  skip
+fi
 
 #
 # operate software ca
 #
 
 ## create code signing request
+echo -n 'creating code-signing certificate request... '
+if ! [ -e certs/software.csr ]
+then
+  sh mk_soft_req.sh >> $LOG 2>&1
+  check $?
+else
+  skip
+fi
 
 ## create code signing certificate
+echo -n 'creating code-signing certificate... '
+if ! [ -e certs/software.crt ]
+then
+  sh mk_soft_cer.sh >> $LOG 2>&1
+  check $?
+else
+  skip
+fi
 
 ## create pkcs#12 bundle
+echo -n 'creating PKCS#12 bundle for code-signing... '
+if [ -e certs/software.crt ]
+then  
+  sh mk_soft_p12.sh >> $LOG 2>&1
+  check $?
+else
+  skip
+fi
 
 ## revoke certificate
+echo -n 'revoking code-signing certificate with serial#=0x01... '
+sh ck_soft_revoc.sh > /dev/null
+if [ $? -eq 0 ]
+then  
+  sh rev_01_soft_cer.sh >> $LOG 2>&1
+  check $?
+else
+  skip
+fi
 
 ## create crl
+echo -n 'creating cert revoc list (CRL) for code-signing certificate... '
+sh ck_soft_revoc.sh > /dev/null
+if [ $? -eq 0 ]
+then
+  sh mk_soft_crl.sh >> $LOG 2>&1
+  check $?
+else
+  skip
+fi
 
 #
 # publish certificates
 #
 
 ## create der certificate
+echo -n 'creating DER form of RootCA certificate... '
+if [ -e ca/root-ca.crt ]
+then  
+  sh mk_rootca_der.sh >> $LOG 2>&1
+  check $?
+else
+  skip
+fi
 
 ## create der crl
+echo -n 'creating DER form of EmailCA cert revoc list (CRL)... '
+if [ -e crl/email-ca.crl ]
+then
+  sh mk_emailca_crl_der.sh >> $LOG 2>&1
+  check $?
+else  
+  skip
+fi
 
 ## create pkcs#7 bundle
-
+echo -n 'creating PKCS#7 bundle for EmailCA... '
+if [ -e ca/email-ca.crt ]
+then
+  sh mk_emailca_p7.sh >> $LOG 2>&1
+  check $?
+else  
+  skip
+fi
 
 
