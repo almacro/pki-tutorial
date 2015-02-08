@@ -32,6 +32,15 @@ Similarly, example 2 (AdvancedPKI) uses these input files:
   *  tlsca_pass.txt
 
 While example 3 (ExpertPKI) uses these input files:
+  *  compca_pass.txt
+  *  enc_pass.txt
+  *  iden_pass.txt
+  *  idenca_pass.txt
+  *  netca_pass.txt
+  *  ocsp_pass.txt
+  *  p12_pass.txt
   *  rootca_pass.txt
+  *  tlscli_pass.txt
+  *  tsa_pass.txt
 
 A secure - preferably automated - means of generating these files is a prerequisite to running the scripts.
