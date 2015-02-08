@@ -1,6 +1,5 @@
 #!/usr/bin/env ksh
 #
-
 cat rootca_pass.txt | \
 /usr/sbin/openssl ca -gencrl \
     -config etc/root-ca.conf \
